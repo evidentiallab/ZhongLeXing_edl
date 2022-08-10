@@ -1,0 +1,62 @@
+In this video, we are gonna talk about the difference between evidential deep learning and Traditional Neural Networks.
+
+So, let's first recap the training process of the traditional Neural networks and how it predicts an image.  
+
+Let's say there is a training example image and its ground truth label is seven. 
+
+And it is gonna be passed in the Convolutional neural networks, in this case, we use the typical convolutional neural networks - LeNet-5. 
+
+the image was passed through every layer in the networks, and eventually, the network generate an output vector that contains the corresponding probability of the labels this image would be using the SoftMax layer.   
+
+And by giving the ground truth vector of this image and the network can backpropagate to find the best structure of the networks using the loss function. 
+
+
+Actually, the convolutional neural networks have done a great job in this kind of task. But there still are some problems in the convolutional Neural networks.
+
+For example, let's say we are gonna classify an image, and we have a well trained networks or at least we think the networks have been well trained. 
+
+The target image was processed by the networks and finally, the networks generate an output vector containing the corresponding probability of the label. 
+
+In this case, the networks think it's 30% percent that this image is a digit 1 which is obviously wrong. And the confidence of the networks' prediction is quite low. 
+
+This means the networks will make an overconfident prediction and this kind of issue will result in a bad experience when the user uses our networks.
+
+
+In another scenario, Let's say we are gonna classify an image that is completely irrelevant to the training set. 
+
+after being processed by the networks, it will also generate an output vector and classify the image as the label which gets the highest probability. 
+
+In this case, the networks predict a dog as the digit 2. This is another problem in the traditional convolutional neural networks which is the networks we train never say I don't know. It never rejects classifying an image when the task goes beyond its capability. 
+
+
+
+So how does the evidential deep learning solve these kinds of issues? 
+
+In Evidential deep learning, the training net is similar to the traditional neural networks, but unlike the traditional neural networks use a softmax activation to generate the probability of each label, it instead uses a ReLu activation. 
+
+we call The vector created by the ReLu layer as the Evidence vector. 
+
+And then the evidence output generates an alpha vector by an add "1" operation. 
+
+after that, the evidential neural networks will calculate the Dirichlet strength by summing the elements of the evidence vector 
+
+and the uncertainty score is calculated by dividing the number of label by the dirichlet strength. 
+
+The uncertainty score here represents the uncertainty of the prediction the networks make. 
+
+Finally, the evidential neural networks generate their own probability vector along with the uncertainty. 
+
+Another difference is that in the training process, evidential neural networks use their own loss function to backpropagate. 
+
+*We call this process the evidence adjustment part. In this part, we further process the output of the traditional neural networks and calculate the uncertainty to better train the networks using the special loss function and the uncertainty score could also make the user know better about the result the networks give. 
+
+
+So let's see some real predictions the traditional one and the evidential one make. 
+
+the first image is similar to the training set. The result shows that the evidential neural networks think this image is a digit one with 23% uncertainty, while the traditional networks predict it as 1 with full confidence. 
+
+Another example is not a digit image, and in this case, the traditional neural networks think it's digit 0 with full confidence, while the evidential neural networks also think it's digit 0 but in this time with 68% uncertainty which can tell the user this image maybe goes beyond its capability. 
+
+We think that the prediction with an uncertainty score does a better job than the one with full confidence. 
+
+So that's all. I hope this video could help u get a basic understanding of the evidential deep learning and Thanks for watching this video.

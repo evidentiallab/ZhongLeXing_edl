@@ -8,6 +8,7 @@ class Edl(Scene):
 
     def construct(self):
         # title -> to top
+
         title = Text(
             "Evidential Neural Network vs. Traditional Neural Network",
             font="Consolas",
@@ -15,13 +16,16 @@ class Edl(Scene):
             t2c={"Evidential Neural Network": BLUE,
                  "Traditional Neural Network": ORANGE}).scale(0.8)
 
+
         self.play(FadeInFromPoint(title, UP * 3))
-        self.wait()
+        self.add_sound("./voices/1.m4a")
+        self.wait(7)
+
         self.play(
             title.animate.to_edge(UP, buff = 0.1)
         )
-
         self.wait()
+        self.add_sound("./voices/2-1.m4a")
         # traditional network work text
         tnn_title = Text(
             "How does Traditional Neural Networks work?",
@@ -30,7 +34,7 @@ class Edl(Scene):
             t2c={"Traditional Neural Networks": ORANGE}
         ).to_corner(UL)
         self.play(FadeInFromPoint(tnn_title, UL * 4))
-        self.wait()
+        self.wait(7)
 
         # first part - tnn process
         self.show_neural_net_process()
@@ -43,8 +47,8 @@ class Edl(Scene):
             t2c={"traditional Neural Networks": ORANGE},
         ).to_corner(UL)
         self.play(FadeInFromPoint(tnn_problem_title, UL * 4))
-        self.wait()
-        # second part - problem in tnn
+
+        # # second part - problem in tnn
         self.show_problems_in_tnn(tnn_problem_title)
 
         self.play(FadeOutToPoint(tnn_problem_title, UR * 4))
@@ -55,19 +59,21 @@ class Edl(Scene):
             t2c={"Evidential Neural Networks": BLUE}
         ).to_corner(UL)
         self.play(FadeInFromPoint(how_enn_work_text, UL * 4))
-        self.wait()
-
+        self.add_sound("./voices/5-1.m4a") #5s
+        self.wait(5)
+        #
         edl_network = self.show_enn_process()
 
-        self.play(FadeOutToPoint(how_enn_work_text, UR * 4))
 
+        self.play(FadeOutToPoint(how_enn_work_text, UR * 4))
+        self.add_sound("./voices/6-1.m4a") #5s
         comparation_text = Text(
-            "Comparation",
+            "Comparisons",
             font="Consolas",
             font_size = 30,
         ).to_corner(UL)
         self.play(FadeInFromPoint(comparation_text, UL * 4))
-        self.wait()
+        self.wait(5)
 
         self.show_comparation(edl_network)
 
@@ -75,7 +81,6 @@ class Edl(Scene):
             FadeOutToPoint(comparation_text, UL * 4),
             FadeOutToPoint(title, UP * 4)
         )
-
         self.play(
             GrowFromCenter(Text(
                 "Thanks for watching",
@@ -85,6 +90,8 @@ class Edl(Scene):
             ).move_to(ORIGIN)
         )
         )
+        self.add_sound("./voices/6-5-.m4a")  # 9s
+        self.wait(10)
 
 
     def show_comparation(self, edl_network):
@@ -92,10 +99,9 @@ class Edl(Scene):
         one_image, _ = self.load_image("./images/digit.jpg")
         yoda_image, _ = self.load_image("./images/yoda.jpg")
 
-        self.play(
-            FadeIn(one_image, RIGHT)
-        )
-        self.wait(2)
+        # self.play(
+        #     FadeIn(one_image, RIGHT)
+        # )
         tnn_network = edl_network[0].copy().next_to(one_image, UR + RIGHT).scale(0.5)
         edl_network.scale(0.6).next_to(one_image, DR + RIGHT)
 
@@ -103,18 +109,24 @@ class Edl(Scene):
         img2edl_arrow = self.create_arrow(one_image, edl_network).scale(0.5)
 
         self.play(
+            FadeIn(one_image, RIGHT),
             AnimationGroup(
                 FadeIn(img2edl_arrow),
                 FadeIn(img2tnn_arrow)
-            )
-        )
-        self.play(
+            ),
             AnimationGroup(
                 FadeIn(tnn_network, UP),
                 FadeIn(edl_network, DOWN)
             )
         )
-        self.wait(2)
+        self.add_sound("./voices/6-2.m4a")
+        # self.play(
+        #     AnimationGroup(
+        #         FadeIn(tnn_network, UP),
+        #         FadeIn(edl_network, DOWN)
+        #     )
+        # )
+
 
         digit_prediction = ImageMobject(
             "./images/digit_prediction.png",
@@ -134,19 +146,18 @@ class Edl(Scene):
                 FadeInFromPoint(digit_prediction, LEFT * 3),
             )
         )
-
-        self.wait(5)
-
+        self.wait(14)
         self.play(
             FadeOutToPoint(digit_prediction, RIGHT * 3),
             FadeTransform(one_image, yoda_image),
         )
-        self.wait(2)
+        self.add_sound("./voices/6-3.m4a")  # 20s
         self.play(
             FadeIn(yoda_prediction)
         )
-        self.wait(5)
-
+        self.wait(20)
+        self.add_sound("./voices/6-4.m4a") #6s
+        self.wait(6)
         self.remove(
             yoda_image,
             yoda_prediction,
@@ -197,17 +208,16 @@ class Edl(Scene):
 
         softmax_output = self.create_vector(softmax_vector, network, text=r"y_p")
         net2softmax_arrow = self.create_arrow(network, softmax_output[0], text=r"softmax")
-
+        self.add_sound("./voices/5-2.m4a") #16s
         self.play(
             FadeIn(network.to_edge(LEFT), RIGHT),
         )
-        self.wait()
+        self.wait(3)
         self.play(
             FadeIn(net2softmax_arrow, RIGHT),
             FadeIn(softmax_output, RIGHT)
         )
-
-        self.wait(2)
+        self.wait(7)
 
         evidence = self.create_vector(evidence_vector, network, text=r"y_p/Evidence")
         net2evidence_arrow = self.create_arrow(network, evidence[0], text=r"ReLu")
@@ -218,7 +228,7 @@ class Edl(Scene):
                 ReplacementTransform(net2softmax_arrow, net2evidence_arrow)
             )
         )
-
+        self.wait(5)
         moved_evidence = evidence.copy().to_edge(LEFT)
         alpha = self.create_vector(evidence_vector + 1, moved_evidence[0], r"\alpha", interval=4)
         evidence2alpha_arrow = self.create_arrow(moved_evidence[0], alpha[0], text=" + 1")
@@ -254,7 +264,7 @@ class Edl(Scene):
             font_size=30
         ).next_to(prediction_loss, DOWN * 2, aligned_edge=LEFT)
 
-
+        self.add_sound("./voices/5-3.m4a")  # 5s
         self.play(
             AnimationGroup(
                 FadeOut(network),
@@ -262,7 +272,7 @@ class Edl(Scene):
                 FadeTransform(evidence, moved_evidence)
             )
         )
-        self.wait(2)
+        self.wait(5)
 
         enn_process = VGroup(*[
             moved_evidence,
@@ -280,31 +290,36 @@ class Edl(Scene):
         evidence_part.add(Text("evidence adjustement part",
                                font_size=30,
                                font="Consolas").move_to(evidence_part.get_center()).scale(0.5))
-
+        self.add_sound("./voices/5-4.m4a")  # 5s
         self.play(
             AnimationGroup(
                 FadeIn(evidence2alpha_arrow, RIGHT),
                 FadeIn(alpha, RIGHT)
-            )
+            ),
         )
-
-        self.wait(2)
+        self.wait(5)
+        self.add_sound("./voices/5-5.m4a")  # 5s
         self.play(
             AnimationGroup(
                 Write(s_calculate_text),
                 Write(uncertainty_calculate_text)
             )
         )
-        self.wait(2)
-
+        self.wait(6)
+        self.add_sound("./voices/5-6.m4a")  # 6s
+        self.wait(7)
+        self.add_sound("./voices/5-7.m4a")  # 5s
+        self.wait(6)
+        self.add_sound("./voices/5-8.m4a")  # 6s
         self.play(
             AnimationGroup(
                 FadeIn(alpha2proba_arrow, RIGHT),
                 FadeIn(enn_probability, RIGHT)
             )
         )
+        self.wait(6)
+        self.add_sound("./voices/5-9.m4a")  # 8s
         self.wait(2)
-
         self.play(
             AnimationGroup(
                 FadeIn(enn_loss, RIGHT),
@@ -317,7 +332,7 @@ class Edl(Scene):
                 FadeIn(evidence_loss)
             )
         )
-        self.wait(2)
+        self.wait(4)
 
 
         intergrate_part = VGroup(
@@ -325,7 +340,7 @@ class Edl(Scene):
             net2evidence_arrow,
             evidence_part
         )
-
+        self.add_sound("./voices/5-10.m4a")  # 14s
         self.play(
             FadeIn(network, RIGHT),
             FadeIn(net2evidence_arrow, RIGHT),
@@ -381,8 +396,9 @@ class Edl(Scene):
                 FadeIn(enn_probability, RIGHT)
             )
         )
-        self.wait(2)
-
+        self.wait(3)
+        self.add_sound("./voices/5-11.m4a") #6
+        self.wait(6)
         self.remove(
             intergrate_part,
             *final_group
@@ -415,17 +431,22 @@ class Edl(Scene):
         overconfident_output[0].add(SurroundingRectangle(overconfident_output[0].get_rows()[1], color=GREEN))
         net2output_arrow = self.create_arrow(trained_net, overconfident_output[0], text="softmax")
 
-
+        self.add_sound("./voices/3-2.m4a") #10s
+        # self.add_sound("./voices/3-3.m4a") #9s
+        # self.add_sound("./voices/3-4.m4a") #10s
+        # self.add_sound("./voices/3-5.m4a") #9s
         self.play(
             FadeIn(minist_img, RIGHT)
         )
-        self.wait()
         self.play(
             FadeIn(img2net_arrow, RIGHT)
         )
         self.play(
             FadeIn(trained_net, RIGHT)
         )
+        self.wait(8)
+        self.add_sound("./voices/3-3.m4a") #9s
+        self.wait(4)
         self.play(
             FadeIn(net2output_arrow, RIGHT)
         )
@@ -433,6 +454,7 @@ class Edl(Scene):
         self.play(
             FadeIn(overconfident_output, RIGHT)
         )
+        self.wait(3)
 
         overconfident_prediction = Text(
             "This Image is 1",
@@ -454,10 +476,12 @@ class Edl(Scene):
             overconfident_prediction,
             overconfident_judge
         ]
+        self.add_sound("./voices/3-4.m4a") #10s
         self.play(FadeIn(overconfident_prediction))
-        self.wait(2)
+        self.wait(10)
+        self.add_sound("./voices/3-5.m4a") #9s
         self.play(FadeTransform(overconfident_prediction, overconfident_judge))
-        self.wait(2)
+        self.wait(10)
 
         # self.remove(
         #     *over_process,
@@ -480,7 +504,9 @@ class Edl(Scene):
         ], np.float64), trained_net, "y_p")
         dog_output[0].add(SurroundingRectangle(dog_output[0].get_rows()[2], color=GREEN))
         # net2output_arrow = self.create_arrow(trained_net, dog_output[0], text="softmax")
-
+        self.add_sound("./voices/4-1.m4a") #7s
+        # self.add_sound("./voices/4-2.m4a") #12s
+        # self.add_sound("./voices/4-3.m4a") #4s
         self.play(
             FadeOut(overconfident_output)
         )
@@ -488,7 +514,8 @@ class Edl(Scene):
         self.play(
             FadeTransform(minist_img, dog_image)
         )
-        self.wait()
+        self.wait(5)
+        self.add_sound("./voices/4-2.m4a")  # 12s
         self.play(
             FadeIn(dog_output, RIGHT)
         )
@@ -511,34 +538,33 @@ class Edl(Scene):
             dontno_judge,
         ]
         self.play(FadeIn(dog_problem_prediction, RIGHT))
-        self.wait(2)
+        self.wait(4)
         self.play(FadeTransform(dog_problem_prediction, dontno_judge))
-        self.wait(2)
-
+        self.wait(4)
+        self.add_sound("./voices/4-3.m4a")  # 4s
+        self.wait(4)
         self.remove(
             *overconfident_process,
             *dog_process
         )
 
-        self.wait(2)
 
     def show_neural_net_process(self):
 
         # show minist example
         minist_img, size_label = self.load_image("./images/mnistex.jpg")
-
+        self.add_sound("./voices/2-2.m4a")
         self.play(
             AnimationGroup(
                 FadeIn(minist_img, RIGHT),
                 FadeIn(size_label, RIGHT)
             )
         )
-
-        self.wait(2)
+        self.wait(5)
         # cnn network detail and forward propagation,
         # show_net_and_path function can create a simple LeNet type cnn graph and show the forward propagation path
         network = self.show_net_and_path(minist_img)
-
+        #
         # get a output vector
         output = self.create_vector(np.array([
             [0.30],
@@ -559,7 +585,7 @@ class Edl(Scene):
                 FadeIn(output, RIGHT)
             )
         )
-        self.wait(2)
+        self.wait(4)
         # create a simple rectangle to represent the cnn network
         simple_network = Rectangle(3, 2, color=BLUE).scale(0.8).set_opacity(1).next_to(minist_img, RIGHT * 4)
         simple_network.add(Text("Traditional CNN", font="Consolas", font_size=25).scale(0.8).move_to(simple_network.get_center()))
@@ -618,11 +644,10 @@ class Edl(Scene):
                 FadeIn(img2net_arrow, RIGHT),
                 *[FadeTransform(old, new) for old, new in list(zip(old_group, new_group))],
             ),
-            run_time=2
         )
-        self.wait(2)
+        self.wait(4)
         # show the ground truth vector and the loss function text
-
+        self.add_sound("./voices/2-5.m4a")
         self.play(
             FadeIn(yt),
         )
@@ -630,8 +655,10 @@ class Edl(Scene):
         self.play(
             FadeInFromPoint(tnn_loss, RIGHT * 3)
         )
-        self.wait(2)
+        self.wait(6)
         # remove all the component that show in this function
+        self.add_sound("./voices/3-1.m4a")
+        self.wait(9)
         self.remove(
             minist_img,
             size_label,
@@ -729,9 +756,11 @@ class Edl(Scene):
             Line(f1[0].get_corner(UR), f2[0].get_corner(UL)).set_color(RED),
             Line(f2[0].get_corner(UR), f3[0].get_corner(UL)).set_color(RED),
         )
-
+        self.add_sound("./voices/2-3.m4a")
         self.play(GrowFromCenter(network))
-        self.play(Write(forward_path), run_time = 8)
+        self.wait(7)
+        self.add_sound("./voices/2-4.m4a")
+        self.play(Write(forward_path), run_time = 5)
 
         return VGroup(network, forward_path)
 
@@ -780,4 +809,4 @@ class Edl(Scene):
 
 
 if __name__ == '__main__':
-    os.system("manimgl edl.py Edl")
+    os.system("manimgl edl.py Edl -o")
